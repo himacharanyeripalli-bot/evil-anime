@@ -1,0 +1,778 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVIL ANIME 5.0</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #09090d;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: linear-gradient(120deg,#160009,#720020,#17000a);
+    text-align: center;
+    padding: 28px 12px;
+}
+
+header h1 {
+    color: #ff1744;
+    font-size: 34px;
+    letter-spacing: 2px;
+}
+
+header p {
+    margin-top: 10px;
+    color: #ddd;
+}
+
+nav {
+    background: #17171c;
+    padding: 15px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 12px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #ff1744;
+}
+
+.hero {
+    padding: 45px 15px;
+    text-align: center;
+    background: radial-gradient(#390014,#09090d 75%);
+}
+
+.hero h2 {
+    color: #ff1744;
+    font-size: 27px;
+    margin-bottom: 12px;
+}
+
+.hero p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.search {
+    display: flex;
+    gap: 8px;
+    max-width: 650px;
+    padding: 20px 12px;
+    margin: auto;
+}
+
+.search input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px;
+    border: 2px solid #ff1744;
+    border-radius: 10px;
+    background: #17171c;
+    color: white;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.search button,
+.load-button {
+    background: #ff1744;
+    color: white;
+    border: none;
+    padding: 12px 17px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+h2.section {
+    color: #ff1744;
+    text-align: center;
+    margin: 25px 10px;
+}
+
+.categories {
+    display: flex;
+    gap: 9px;
+    overflow-x: auto;
+    padding: 12px;
+    justify-content: flex-start;
+}
+
+.categories button {
+    flex-shrink: 0;
+    background: #202027;
+    border: 1px solid #ff1744;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 16px;
+}
+
+.categories button.active,
+.categories button:hover {
+    background: #ff1744;
+}
+
+.status {
+    color: #bbb;
+    text-align: center;
+    padding: 15px;
+    min-height: 45px;
+}
+
+.anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(145px,1fr));
+    gap: 15px;
+    padding: 15px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.card {
+    background: #18181f;
+    border: 1px solid #34303a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .2s;
+}
+
+.card:hover {
+    border-color: #ff1744;
+    transform: translateY(-4px);
+}
+
+.card img {
+    width: 100%;
+    height: 215px;
+    object-fit: cover;
+    display: block;
+    background: #29202a;
+}
+
+.card h3 {
+    font-size: 14px;
+    padding: 10px 8px 5px;
+    line-height: 1.4;
+}
+
+.card p {
+    color: #aaa;
+    font-size: 12px;
+    padding: 3px 8px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 5px;
+    padding: 9px 7px;
+}
+
+.card-actions button {
+    border: none;
+    border-radius: 7px;
+    padding: 9px 5px;
+    font-size: 12px;
+}
+
+.explore {
+    flex: 1;
+    background: #ff1744;
+    color: white;
+}
+
+.fav {
+    background: #303039;
+    color: white;
+    min-width: 38px;
+    font-size: 17px !important;
+}
+
+.fav.saved {
+    color: #ff4b70;
+}
+
+.load-area {
+    text-align: center;
+    padding: 20px;
+}
+
+.load-button:disabled {
+    opacity: .5;
+}
+
+.about {
+    background: #17171c;
+    text-align: center;
+    padding: 40px 20px;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+.about h2 {
+    color: #ff1744;
+    margin-bottom: 12px;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #888;
+    line-height: 1.8;
+}
+
+/* DETAILS PAGE */
+
+.details {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #08080af2;
+    z-index: 20;
+    overflow-y: auto;
+    padding: 20px 12px;
+}
+
+.details-box {
+    background: #18181f;
+    border: 1px solid #ff1744;
+    border-radius: 15px;
+    max-width: 650px;
+    margin: 20px auto;
+    padding: 18px;
+}
+
+.details-top {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.details-top img {
+    width: 115px;
+    border-radius: 9px;
+}
+
+.details h2 {
+    color: #ff1744;
+    margin-bottom: 12px;
+}
+
+.details h3 {
+    color: #ff6684;
+    margin: 22px 0 10px;
+}
+
+.details p {
+    color: #ddd;
+    line-height: 1.6;
+    margin: 8px 0;
+}
+
+.close {
+    background: #ff1744;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 9px;
+    margin-top: 15px;
+}
+
+.episode {
+    background: #292932;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 7px 0;
+    color: white;
+}
+
+.episode small {
+    display: block;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+.badge {
+    display: inline-block;
+    background: #29202a;
+    color: #ff9ab0;
+    border: 1px solid #ff1744;
+    padding: 5px 8px;
+    border-radius: 7px;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+@media(max-width:400px) {
+    header h1 { font-size: 28px; }
+    .card img { height: 190px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>😈 EVIL ANIME</h1>
+    <p>Enter the Darkness. Awaken Your Power.</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#catalogue">Anime</a>
+    <a href="#about">About</a>
+</nav>
+
+<section class="hero" id="home">
+    <h2>THE ANIME UNIVERSE</h2>
+    <p>Discover thousands of anime adventures.<br>
+    Search. Explore. Save your favourites.</p>
+</section>
+
+<div class="search">
+    <input id="searchInput"
+           placeholder="Search anime..."
+           onkeydown="if(event.key==='Enter') searchAnime()">
+    <button onclick="searchAnime()">Search</button>
+</div>
+
+<h2 class="section" id="catalogue">🔥 EXPLORE ANIME</h2>
+
+<div class="categories">
+    <button class="active" onclick="chooseCategory('all',this)">All</button>
+    <button onclick="chooseCategory('1',this)">Action</button>
+    <button onclick="chooseCategory('2',this)">Adventure</button>
+    <button onclick="chooseCategory('10',this)">Fantasy</button>
+    <button onclick="chooseCategory('22',this)">Romance</button>
+    <button onclick="chooseCategory('24',this)">Sci-Fi</button>
+    <button onclick="showFavorites(this)">❤️ Favorites</button>
+</div>
+
+<div class="status" id="status">Loading anime catalogue...</div>
+
+<div class="anime-grid" id="animeGrid"></div>
+
+<div class="load-area">
+    <button class="load-button" id="loadMore"
+            onclick="loadMore()">Load More Anime</button>
+</div>
+
+<section class="about" id="about">
+    <h2>ABOUT EVIL ANIME</h2>
+    <p>
+        EVIL ANIME is an anime discovery website.
+        Explore anime information, descriptions,
+        genres and episode lists.
+    </p>
+    <p>
+        Telugu audio availability must be checked
+        for each title and season.
+    </p>
+</section>
+
+<footer>
+    <h3>😈 EVIL ANIME 5.0</h3>
+    <p>Enter the Darkness. Awaken Your Power.</p>
+    <p>© 2026 EVIL ANIME</p>
+</footer>
+
+<!-- DETAILS PAGE -->
+
+<div class="details" id="details">
+    <div class="details-box">
+
+        <div class="details-top">
+            <img id="detailImage" src="" alt="Anime poster">
+            <div>
+                <h2 id="detailTitle"></h2>
+                <p id="detailScore"></p>
+                <p id="detailType"></p>
+                <span class="badge" id="teluguStatus">
+                    Telugu audio: Not verified
+                </span>
+            </div>
+        </div>
+
+        <h3>📖 Story</h3>
+        <p id="detailStory"></p>
+
+        <h3>📺 Seasons and Episodes</h3>
+        <p id="detailEpisodes"></p>
+        <div id="episodeList"></div>
+
+        <p id="episodeMessage"></p>
+
+        <button class="close" onclick="closeDetails()">
+            Close Details
+        </button>
+
+    </div>
+</div>
+
+<script>
+const API = "https://api.jikan.moe/v4";
+
+let currentPage = 1;
+let currentQuery = "";
+let currentGenre = "";
+let currentMode = "all";
+let busy = false;
+let requestNumber = 0;
+let favorites = JSON.parse(
+    localStorage.getItem("evilAnimeFavorites") || "[]"
+);
+
+function saveFavorites() {
+    localStorage.setItem(
+        "evilAnimeFavorites",
+        JSON.stringify(favorites)
+    );
+}
+
+function showStatus(message) {
+    document.getElementById("status").textContent = message;
+}
+
+function escapeHTML(value) {
+    return String(value || "").replace(/[&<>"']/g, function(c) {
+        return {
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#39;"
+        }[c];
+    });
+}
+
+function makeCard(anime) {
+    const title = anime.title || "Unknown Anime";
+    const image = anime.images?.jpg?.large_image_url ||
+                  anime.images?.jpg?.image_url || "";
+
+    const isSaved = favorites.includes(anime.mal_id);
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const poster = document.createElement("img");
+    poster.src = image;
+    poster.alt = title;
+    poster.loading = "lazy";
+
+    const heading = document.createElement("h3");
+    heading.textContent = title;
+
+    const info = document.createElement("p");
+    info.textContent =
+        (anime.type || "Anime") + " • " +
+        (anime.episodes || "?") + " episodes";
+
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+
+    const explore = document.createElement("button");
+    explore.className = "explore";
+    explore.textContent = "Explore";
+    explore.onclick = () => openDetails(anime.mal_id);
+
+    const favorite = document.createElement("button");
+    favorite.className = "fav" + (isSaved ? " saved" : "");
+    favorite.textContent = isSaved ? "♥" : "♡";
+    favorite.onclick = () => toggleFavorite(anime.mal_id);
+
+    actions.append(explore, favorite);
+    card.append(poster, heading, info, actions);
+
+    return card;
+}
+
+async function getAnime(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Catalogue request failed");
+    return response.json();
+}
+
+async function loadAnime(reset = false) {
+    if (busy) return;
+
+    busy = true;
+    const thisRequest = ++requestNumber;
+
+    if (reset) {
+        currentPage = 1;
+        document.getElementById("animeGrid").innerHTML = "";
+    }
+
+    document.getElementById("loadMore").disabled = true;
+    showStatus("Loading anime...");
+
+    try {
+        let url = API + "/anime?page=" + currentPage +
+                  "&limit=24&sfw=true";
+
+        if (currentQuery) {
+            url += "&q=" + encodeURIComponent(currentQuery);
+        }
+
+        if (currentGenre) {
+            url += "&genres=" + currentGenre;
+        }
+
+        const result = await getAnime(url);
+
+        if (thisRequest !== requestNumber) return;
+
+        const grid = document.getElementById("animeGrid");
+
+        result.data.forEach(anime => {
+            grid.appendChild(makeCard(anime));
+        });
+
+        showStatus(
+            result.data.length
+                ? "Showing anime catalogue results."
+                : "No anime found. Try another search."
+        );
+
+        document.getElementById("loadMore").style.display =
+            result.pagination?.has_next_page ? "inline-block" : "none";
+
+        currentPage++;
+
+    } catch (error) {
+        showStatus("Could not load anime. Check your internet and try again.");
+    } finally {
+        busy = false;
+        document.getElementById("loadMore").disabled = false;
+    }
+}
+
+function searchAnime() {
+    currentQuery = document.getElementById("searchInput").value.trim();
+    currentGenre = "";
+    currentMode = "all";
+
+    document.querySelectorAll(".categories button").forEach(b =>
+        b.classList.remove("active")
+    );
+
+    loadAnime(true);
+}
+
+function chooseCategory(genre, button) {
+    currentGenre = genre === "all" ? "" : genre;
+    currentQuery = "";
+    currentMode = "all";
+
+    document.getElementById("searchInput").value = "";
+
+    document.querySelectorAll(".categories button").forEach(b =>
+        b.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    loadAnime(true);
+}
+
+function loadMore() {
+    if (currentMode === "favorites") {
+        return;
+    }
+    loadAnime(false);
+}
+
+function toggleFavorite(id) {
+    if (favorites.includes(id)) {
+        favorites = favorites.filter(item => item !== id);
+    } else {
+        favorites.push(id);
+    }
+
+    saveFavorites();
+
+    if (currentMode === "favorites") {
+        showFavorites();
+    } else {
+        loadVisibleFavoriteIcons();
+    }
+}
+
+function loadVisibleFavoriteIcons() {
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+        const button = card.querySelector(".fav");
+        if (!button) return;
+
+        // Rebuild the catalogue to update saved hearts.
+        button.textContent = button.classList.contains("saved")
+            ? "♥" : "♡";
+    });
+
+    // Reload current results so favourite icons are refreshed.
+    const grid = document.getElementById("animeGrid");
+    const currentCards = Array.from(grid.children);
+
+    currentCards.forEach(card => {
+        const title = card.querySelector("h3").textContent;
+        const button = card.querySelector(".fav");
+        const saved = button.dataset.id &&
+                      favorites.includes(Number(button.dataset.id));
+
+        button.classList.toggle("saved", !!saved);
+        button.textContent = saved ? "♥" : "♡";
+    });
+}
+
+async function showFavorites() {
+    currentMode = "favorites";
+    currentQuery = "";
+    currentGenre = "";
+
+    document.querySelectorAll(".categories button").forEach(b =>
+        b.classList.remove("active")
+    );
+
+    document.getElementById("searchInput").value = "";
+    document.getElementById("animeGrid").innerHTML = "";
+    document.getElementById("loadMore").style.display = "none";
+
+    if (favorites.length === 0) {
+        showStatus("No favourites saved yet. Tap ♡ on an anime.");
+        return;
+    }
+
+    showStatus("Loading your favourites...");
+
+    for (const id of favorites) {
+        try {
+            const result = await getAnime(API + "/anime/" + id);
+            document.getElementById("animeGrid")
+                .appendChild(makeCard(result.data));
+        } catch (error) {
+            // Continue loading other favourites.
+        }
+    }
+
+    showStatus("Your saved anime favourites.");
+}
+
+async function openDetails(id) {
+    const panel = document.getElementById("details");
+    panel.style.display = "block";
+    document.getElementById("detailTitle").textContent = "Loading...";
+    document.getElementById("detailStory").textContent =
+        "Loading anime information...";
+    document.getElementById("episodeList").innerHTML = "";
+    document.getElementById("episodeMessage").textContent = "";
+
+    try {
+        const result = await getAnime(API + "/anime/" + id + "/full");
+        const anime = result.data;
+
+        document.getElementById("detailTitle").textContent = anime.title;
+        document.getElementById("detailImage").src =
+            anime.images?.jpg?.large_image_url || "";
+
+        document.getElementById("detailScore").textContent =
+            "⭐ Score: " + (anime.score || "Not available");
+
+        document.getElementById("detailType").textContent =
+            (anime.type || "Anime") + " • " +
+            (anime.status || "Unknown status");
+
+        document.getElementById("detailStory").textContent =
+            anime.synopsis || "Story information not available.";
+
+        document.getElementById("detailEpisodes").textContent =
+            "Total episodes listed: " +
+            (anime.episodes || "Not available");
+
+        document.getElementById("teluguStatus").textContent =
+            "Telugu audio: Not verified";
+
+        document.getElementById("episodeMessage").textContent =
+            "Episode information is loading...";
+
+        // Jikan episode list is fetched separately.
+        setTimeout(async () => {
+            try {
+                const episodes = await getAnime(
+                    API + "/anime/" + id + "/episodes?page=1"
+                );
+
+                const list = document.getElementById("episodeList");
+                list.innerHTML = "";
+
+                if (!episodes.data.length) {
+                    document.getElementById("episodeMessage").textContent =
+                        "No episode information available.";
+                    return;
+                }
+
+                episodes.data.forEach(ep => {
+                    const item = document.createElement("div");
+                    item.className = "episode";
+
+                    const name = document.createElement("strong");
+                    name.textContent =
+                        "Episode " + ep.mal_id + ": " +
+                        (ep.title || "Episode");
+
+                    const sub = document.createElement("small");
+                    sub.textContent = ep.aired
+                        ? "Release date: " + ep.aired
+                        : "Release date not listed";
+
+                    item.append(name, sub);
+                    list.appendChild(item);
+                });
+
+                document.getElementById("episodeMessage").textContent =
+                    "These are episode details, not playable video streams.";
+
+            } catch (error) {
+                document.getElementById("episodeMessage").textContent =
+                    "Episode list could not load. Try again later.";
+            }
+        }, 450);
+
+    } catch (error) {
+        document.getElementById("detailTitle").textContent =
+            "Could not load details";
+        document.getElementById("detailStory").textContent =
+            "Check your internet connection and try again.";
+    }
+}
+
+function closeDetails() {
+    document.getElementById("details").style.display = "none";
+}
+
+loadAnime(true);
+</script>
+
+</body>
+</html>
